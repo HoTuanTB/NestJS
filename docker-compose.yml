@@ -1,10 +1,11 @@
+version: '3.8'
 services:
   app:
     container_name: backend
-    image: node:22-alpine
-    command: sh -c "npm run start:dev"
+    build:
+      context: .
     ports:
-      - 127.0.0.1:9082:9082
+      - "127.0.0.1:9082:9082"
     working_dir: /app
     volumes:
       - ./:/app
@@ -12,7 +13,7 @@ services:
       POSTGRES_HOST: db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: secret
-      POSTGRES_DB: todos
+      POSTGRES_DB: db_postgres
 
   db:
     container_name: db
@@ -20,10 +21,11 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/db-data
+      - db_postgres:/var/lib/postgresql/data
     environment:
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: secret
-      POSTGRES_DB: db
+      POSTGRES_DB: db_postgres
 
 volumes:
-  db-data:
+  db_postgres:
