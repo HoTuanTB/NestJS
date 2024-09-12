@@ -3,13 +3,13 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
+  // Param,
   Post,
   Put,
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Product } from 'src/models/product.models';
+import { Product } from 'src/models/product.model';
 import { ProductDto } from 'src/dto/product.dto';
 
 @Controller('products')
@@ -17,7 +17,7 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  getProducts(): Product[] {
+  async getProducts(): Promise<Product[]> {
     return this.productService.getProducts();
   }
 
@@ -28,10 +28,10 @@ export class ProductController {
     return this.productService.createProduct(productDto);
   }
 
-  @Get('/:id')
-  detailProduct(@Param('id') id: number): Product {
-    return this.productService.detailProduct(id);
-  }
+  // @Get('/:id')
+  // detailProduct(@Param('id') id: number): Product {
+  //   return this.productService.detailProduct(id);
+  // }
 
   @Put('/:id')
   updateProduct(): string {
